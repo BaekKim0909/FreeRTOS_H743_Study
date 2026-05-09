@@ -195,6 +195,9 @@ SECTIONS
   /* Uninitialized data section */
   .tbss (NOLOAD) : ALIGN(4)
   {
+      /* This is used by the startup in order to initialize the .bss secion */
+      _sbss = .;         /* define a global symbol at bss start */
+      __bss_start__ = _sbss;
     *(.tbss .tbss.*)
     . = ALIGN(4);
     PROVIDE( __tbss_end = . );
@@ -214,8 +217,6 @@ SECTIONS
 
   .bss (NOLOAD) : ALIGN(4)
   {
-    _sbss = .;         /* define a global symbol at bss start */
-    __bss_start__ = _sbss;
     *(.bss)
     *(.bss*)
     *(COMMON)
@@ -224,7 +225,7 @@ SECTIONS
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
       PROVIDE( __bss_end = .);
-  } >RAM
+  } >DTCMRAM
 
   .ram (NOLOAD) :
   {
