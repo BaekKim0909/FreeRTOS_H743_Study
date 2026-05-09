@@ -21,6 +21,7 @@
 #include "dma2d.h"
 
 /* USER CODE BEGIN 0 */
+extern void HAL_DMA2D_TransferCompleteCallback(DMA2D_HandleTypeDef *hdma2d);
 
 /* USER CODE END 0 */
 
@@ -57,7 +58,7 @@ void MX_DMA2D_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN DMA2D_Init 2 */
-
+  hdma2d.XferCpltCallback = HAL_DMA2D_TransferCompleteCallback;
   /* USER CODE END DMA2D_Init 2 */
 
 }

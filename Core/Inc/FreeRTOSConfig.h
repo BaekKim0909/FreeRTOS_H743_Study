@@ -73,6 +73,7 @@ extern uint32_t SystemCoreClock;
 #define configMAX_TASK_NAME_LEN                  ( 16 )
 #define configHEAP_CLEAR_MEMORY_ON_FREE          0
 #define configUSE_TRACE_FACILITY                 1
+#define configUSE_STATS_FORMATTING_FUNCTIONS     1
 #define configUSE_16_BIT_TICKS                   0
 #define configUSE_MUTEXES                        1
 #define configQUEUE_REGISTRY_SIZE                8
@@ -80,6 +81,7 @@ extern uint32_t SystemCoreClock;
 #define configUSE_RECURSIVE_MUTEXES              1
 #define configUSE_COUNTING_SEMAPHORES            1
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION  0
+#define configRECORD_STACK_HIGH_ADDRESS          1
 /* USER CODE BEGIN MESSAGE_BUFFER_LENGTH_TYPE */
 /* Defaults to size_t for backward compatibility, but can be changed
    if lengths will always be less than the number of bytes in a size_t. */

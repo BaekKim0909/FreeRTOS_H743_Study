@@ -22,6 +22,7 @@
 #include "stm32h7xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "lvgl.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -75,8 +76,7 @@ void NMI_Handler(void)
 
   /* USER CODE END NonMaskableInt_IRQn 0 */
   /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
-   while (1)
-  {
+  while (1) {
   }
   /* USER CODE END NonMaskableInt_IRQn 1 */
 }
@@ -204,5 +204,10 @@ void DMA2D_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
+extern lv_display_t *disp_drv_global;
+
+void HAL_DMA2D_TransferCompleteCallback(DMA2D_HandleTypeDef *hdma2d) {
+  lv_display_flush_ready(disp_drv_global);
+}
 
 /* USER CODE END 1 */
