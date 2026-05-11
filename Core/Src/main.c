@@ -87,7 +87,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  SCB->CACR |= 1 << 2; /* 强制 D-Cache 透写模式 */
   /* USER CODE END Init */
 
   /* Configure the system clock */

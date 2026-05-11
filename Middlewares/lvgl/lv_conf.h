@@ -146,7 +146,7 @@
  * and can't be drawn in chunks. */
 
 /** The target buffer size for simple layer chunks. */
-#define LV_DRAW_LAYER_SIMPLE_BUF_SIZE    (2 * 1024)    /**< [bytes]*/
+#define LV_DRAW_LAYER_SIMPLE_BUF_SIZE    (38 * 1024)    /**< [bytes]*/
 
 /* Limit the max allocated memory for simple and transformed layers.
  * It should be at least `LV_DRAW_LAYER_SIMPLE_BUF_SIZE` sized but if transformed layers are also used
