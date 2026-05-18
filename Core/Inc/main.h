@@ -61,6 +61,8 @@ void Error_Handler(void);
 #define LED_G_GPIO_Port GPIOB
 #define LEG_R_Pin GPIO_PIN_1
 #define LEG_R_GPIO_Port GPIOB
+#define LCD_SCAN_LR_DIRECTION_Pin GPIO_PIN_7
+#define LCD_SCAN_LR_DIRECTION_GPIO_Port GPIOC
 #define LCD_BG_Pin GPIO_PIN_5
 #define LCD_BG_GPIO_Port GPIOB
 

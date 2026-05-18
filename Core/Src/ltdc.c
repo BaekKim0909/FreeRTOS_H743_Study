@@ -22,7 +22,7 @@
 
 /* USER CODE BEGIN 0 */
 __attribute__((section(".sdram")))
-uint16_t ltdc_lcd_framebuf[800][480];
+uint16_t ltdc_lcd_framebuf[1024][600];
 extern DMA2D_HandleTypeDef hdma2d;
 /* USER CODE END 0 */
 
@@ -48,12 +48,12 @@ void MX_LTDC_Init(void)
   hltdc.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
   hltdc.Init.HorizontalSync = 0;
   hltdc.Init.VerticalSync = 0;
-  hltdc.Init.AccumulatedHBP = 46;
+  hltdc.Init.AccumulatedHBP = 160;
   hltdc.Init.AccumulatedVBP = 23;
-  hltdc.Init.AccumulatedActiveW = 846;
-  hltdc.Init.AccumulatedActiveH = 503;
-  hltdc.Init.TotalWidth = 1056;
-  hltdc.Init.TotalHeigh = 525;
+  hltdc.Init.AccumulatedActiveW = 1184;
+  hltdc.Init.AccumulatedActiveH = 623;
+  hltdc.Init.TotalWidth = 1344;
+  hltdc.Init.TotalHeigh = 635;
   hltdc.Init.Backcolor.Blue = 0;
   hltdc.Init.Backcolor.Green = 0;
   hltdc.Init.Backcolor.Red = 0;
@@ -62,17 +62,17 @@ void MX_LTDC_Init(void)
     Error_Handler();
   }
   pLayerCfg.WindowX0 = 0;
-  pLayerCfg.WindowX1 = 800;
+  pLayerCfg.WindowX1 = 1024;
   pLayerCfg.WindowY0 = 0;
-  pLayerCfg.WindowY1 = 480;
+  pLayerCfg.WindowY1 = 600;
   pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_RGB565;
   pLayerCfg.Alpha = 255;
   pLayerCfg.Alpha0 = 255;
   pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
   pLayerCfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;
   pLayerCfg.FBStartAdress = 0xC0000000;
-  pLayerCfg.ImageWidth = 800;
-  pLayerCfg.ImageHeight = 480;
+  pLayerCfg.ImageWidth = 1024;
+  pLayerCfg.ImageHeight = 600;
   pLayerCfg.Backcolor.Blue = 255;
   pLayerCfg.Backcolor.Green = 0;
   pLayerCfg.Backcolor.Red = 0;
@@ -235,8 +235,7 @@ void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef* ltdcHandle)
 }
 
 /* USER CODE BEGIN 1 */
-void ltdc_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color)
-{
+void ltdc_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color) {
   uint32_t psx, psy, pex, pey;
   uint16_t offline;
   uint32_t addr;
@@ -246,18 +245,19 @@ void ltdc_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_
   pex = ex;
   pey = ey;
 
-  offline = 800 - (pex - psx + 1);
-  addr = ((uint32_t)ltdc_lcd_framebuf + 2 * (800 * psy + psx));
+  offline = 1024 - (pex - psx + 1);
+  addr = ((uint32_t) ltdc_lcd_framebuf + 2 * (1024 * psy + psx));
 
-  SCB_CleanDCache_by_Addr((uint32_t *)color, (pex - psx + 1) * (pey - psy + 1) * 2);
+  SCB_CleanDCache_by_Addr((uint32_t *) color, (pex - psx + 1) * (pey - psy + 1) * 2);
 
   //  MODIFY_REG(hdma2d.Instance->OOR, DMA2D_OOR_LO, offline);
   hdma2d.Instance->OOR = offline;
   HAL_DMA2D_Start_IT(&hdma2d,
-                     (uint32_t)color,
+                     (uint32_t) color,
                      addr,
                      (pex - psx + 1),
                      (pey - psy + 1));
 }
+
 /* USER CODE END 1 */
 
