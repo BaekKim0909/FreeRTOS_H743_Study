@@ -22,16 +22,14 @@
 
 /* USER CODE BEGIN 0 */
 __attribute__((section(".sdram")))
-uint16_t ltdc_lcd_framebuf[1024][600];
+uint16_t ltdc_lcd_framebuf[800][480];
 extern DMA2D_HandleTypeDef hdma2d;
 /* USER CODE END 0 */
 
 LTDC_HandleTypeDef hltdc;
 
 /* LTDC init function */
-void MX_LTDC_Init(void)
-{
-
+void MX_LTDC_Init(void) {
   /* USER CODE BEGIN LTDC_Init 0 */
 
   /* USER CODE END LTDC_Init 0 */
@@ -48,57 +46,51 @@ void MX_LTDC_Init(void)
   hltdc.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
   hltdc.Init.HorizontalSync = 0;
   hltdc.Init.VerticalSync = 0;
-  hltdc.Init.AccumulatedHBP = 160;
+  hltdc.Init.AccumulatedHBP = 46;
   hltdc.Init.AccumulatedVBP = 23;
-  hltdc.Init.AccumulatedActiveW = 1184;
-  hltdc.Init.AccumulatedActiveH = 623;
-  hltdc.Init.TotalWidth = 1344;
-  hltdc.Init.TotalHeigh = 635;
+  hltdc.Init.AccumulatedActiveW = 846;
+  hltdc.Init.AccumulatedActiveH = 503;
+  hltdc.Init.TotalWidth = 1056;
+  hltdc.Init.TotalHeigh = 525;
   hltdc.Init.Backcolor.Blue = 0;
   hltdc.Init.Backcolor.Green = 0;
   hltdc.Init.Backcolor.Red = 0;
-  if (HAL_LTDC_Init(&hltdc) != HAL_OK)
-  {
+  if (HAL_LTDC_Init(&hltdc) != HAL_OK) {
     Error_Handler();
   }
   pLayerCfg.WindowX0 = 0;
-  pLayerCfg.WindowX1 = 1024;
+  pLayerCfg.WindowX1 = 800;
   pLayerCfg.WindowY0 = 0;
-  pLayerCfg.WindowY1 = 600;
+  pLayerCfg.WindowY1 = 480;
   pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_RGB565;
   pLayerCfg.Alpha = 255;
   pLayerCfg.Alpha0 = 255;
   pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
   pLayerCfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;
   pLayerCfg.FBStartAdress = 0xC0000000;
-  pLayerCfg.ImageWidth = 1024;
-  pLayerCfg.ImageHeight = 600;
+  pLayerCfg.ImageWidth = 800;
+  pLayerCfg.ImageHeight = 480;
   pLayerCfg.Backcolor.Blue = 255;
   pLayerCfg.Backcolor.Green = 0;
   pLayerCfg.Backcolor.Red = 0;
-  if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, 0) != HAL_OK)
-  {
+  if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, 0) != HAL_OK) {
     Error_Handler();
   }
   /* USER CODE BEGIN LTDC_Init 2 */
 
   /* USER CODE END LTDC_Init 2 */
-
 }
 
-void HAL_LTDC_MspInit(LTDC_HandleTypeDef* ltdcHandle)
-{
-
+void HAL_LTDC_MspInit(LTDC_HandleTypeDef *ltdcHandle) {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
-  if(ltdcHandle->Instance==LTDC)
-  {
-  /* USER CODE BEGIN LTDC_MspInit 0 */
+  if (ltdcHandle->Instance == LTDC) {
+    /* USER CODE BEGIN LTDC_MspInit 0 */
 
-  /* USER CODE END LTDC_MspInit 0 */
+    /* USER CODE END LTDC_MspInit 0 */
 
-  /** Initializes the peripherals clock
-  */
+    /** Initializes the peripherals clock
+    */
     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC;
     PeriphClkInitStruct.PLL3.PLL3M = 25;
     PeriphClkInitStruct.PLL3.PLL3N = 300;
@@ -108,8 +100,7 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* ltdcHandle)
     PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_0;
     PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
     PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
-    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-    {
+    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK) {
       Error_Handler();
     }
 
@@ -142,9 +133,9 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* ltdcHandle)
     PI6     ------> LTDC_B6
     PI7     ------> LTDC_B7
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_0|GPIO_PIN_1
-                          |GPIO_PIN_2|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6
-                          |GPIO_PIN_7;
+    GPIO_InitStruct.Pin = GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_0 | GPIO_PIN_1
+                          | GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6
+                          | GPIO_PIN_7;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -158,15 +149,15 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* ltdcHandle)
     GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
     HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12
-                          |GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
+    GPIO_InitStruct.Pin = GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12
+                          | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
     HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_11;
+    GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_11;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -176,20 +167,17 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* ltdcHandle)
     /* LTDC interrupt Init */
     HAL_NVIC_SetPriority(LTDC_IRQn, 7, 0);
     HAL_NVIC_EnableIRQ(LTDC_IRQn);
-  /* USER CODE BEGIN LTDC_MspInit 1 */
+    /* USER CODE BEGIN LTDC_MspInit 1 */
 
-  /* USER CODE END LTDC_MspInit 1 */
+    /* USER CODE END LTDC_MspInit 1 */
   }
 }
 
-void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef* ltdcHandle)
-{
+void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef *ltdcHandle) {
+  if (ltdcHandle->Instance == LTDC) {
+    /* USER CODE BEGIN LTDC_MspDeInit 0 */
 
-  if(ltdcHandle->Instance==LTDC)
-  {
-  /* USER CODE BEGIN LTDC_MspDeInit 0 */
-
-  /* USER CODE END LTDC_MspDeInit 0 */
+    /* USER CODE END LTDC_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_LTDC_CLK_DISABLE();
 
@@ -215,22 +203,22 @@ void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef* ltdcHandle)
     PI6     ------> LTDC_B6
     PI7     ------> LTDC_B7
     */
-    HAL_GPIO_DeInit(GPIOI, GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_0|GPIO_PIN_1
-                          |GPIO_PIN_2|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6
-                          |GPIO_PIN_7);
+    HAL_GPIO_DeInit(GPIOI, GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_0 | GPIO_PIN_1
+                           | GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6
+                           | GPIO_PIN_7);
 
     HAL_GPIO_DeInit(GPIOF, GPIO_PIN_10);
 
-    HAL_GPIO_DeInit(GPIOH, GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12
-                          |GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15);
+    HAL_GPIO_DeInit(GPIOH, GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12
+                           | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15);
 
-    HAL_GPIO_DeInit(GPIOG, GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_11);
+    HAL_GPIO_DeInit(GPIOG, GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_11);
 
     /* LTDC interrupt Deinit */
     HAL_NVIC_DisableIRQ(LTDC_IRQn);
-  /* USER CODE BEGIN LTDC_MspDeInit 1 */
+    /* USER CODE BEGIN LTDC_MspDeInit 1 */
 
-  /* USER CODE END LTDC_MspDeInit 1 */
+    /* USER CODE END LTDC_MspDeInit 1 */
   }
 }
 
@@ -245,8 +233,8 @@ void ltdc_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_
   pex = ex;
   pey = ey;
 
-  offline = 1024 - (pex - psx + 1);
-  addr = ((uint32_t) ltdc_lcd_framebuf + 2 * (1024 * psy + psx));
+  offline = 800 - (pex - psx + 1);
+  addr = ((uint32_t) ltdc_lcd_framebuf + 2 * (800 * psy + psx));
 
   SCB_CleanDCache_by_Addr((uint32_t *) color, (pex - psx + 1) * (pey - psy + 1) * 2);
 

@@ -18,12 +18,12 @@
  *********************/
 #ifndef MY_DISP_HOR_RES
 #warning Please define or replace the macro MY_DISP_HOR_RES with the actual screen width, default value 320 is used for now.
-#define MY_DISP_HOR_RES 1024
+#define MY_DISP_HOR_RES 800
 #endif
 
 #ifndef MY_DISP_VER_RES
 #warning Please define or replace the macro MY_DISP_VER_RES with the actual screen height, default value 240 is used for now.
-#define MY_DISP_VER_RES 600
+#define MY_DISP_VER_RES 480
 #endif
 
 #define BYTE_PER_PIXEL (LV_COLOR_FORMAT_GET_SIZE(LV_COLOR_FORMAT_RGB565)) /*will be 2 for RGB565 */
@@ -77,7 +77,7 @@ void lv_port_disp_init(void) {
   * One buffer for partial rendering*/
  LV_ATTRIBUTE_MEM_ALIGN
  __attribute__((section(".ram")))
-   static uint8_t buf_1_1[MY_DISP_HOR_RES * 200 * BYTE_PER_PIXEL]; /*A buffer for 10 rows*/
+   static uint8_t buf_1_1[MY_DISP_HOR_RES * 240 * BYTE_PER_PIXEL]; /*A buffer for 10 rows*/
  lv_display_set_buffers(disp, buf_1_1, NULL, sizeof(buf_1_1), LV_DISPLAY_RENDER_MODE_PARTIAL);
 
  /* Example 2
