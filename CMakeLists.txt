@@ -32,7 +32,8 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 enable_language(C ASM)
 
 # Create an executable object type
-add_executable(${CMAKE_PROJECT_NAME})
+add_executable(${CMAKE_PROJECT_NAME}
+)
 
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
@@ -47,6 +48,10 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
         # Add user sources here
         ${LVGL_SOURCE}
         Core/Src/sdram.c
+        Core/APP/Tasks/Src/UITask.c
+        Core/APP/Tasks/Src/KeyScanTask.c
+        Core/APP/Tasks/Src/LEDTask.c
+        Core/APP/Tasks/Src/CommunicateTask.c
 )
 
 # Add include paths
@@ -57,6 +62,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         Middlewares/lvgl/examples/porting
         Middlewares/lvgl/demos
         Middlewares/lvgl/demos/music
+        Core/APP
 )
 
 # Add project symbols (macros)
