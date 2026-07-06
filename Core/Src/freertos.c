@@ -97,22 +97,16 @@ const osMessageQueueAttr_t CommandQueue_attributes = {
 /* USER CODE END FunctionPrototypes */
 
 void StartUITask(void *argument);
-
 extern void StartKeyScanTask(void *argument);
-
 extern void StartLEDTask(void *argument);
-
 extern void StartCommunicationTask(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* Hook prototypes */
 void configureTimerForRunTimeStats(void);
-
 unsigned long getRunTimeCounterValue(void);
-
 void vApplicationTickHook(void);
-
 void vApplicationStackOverflowHook(xTaskHandle xTask, char *pcTaskName);
 
 /* USER CODE BEGIN 1 */
@@ -156,8 +150,7 @@ void vApplicationStackOverflowHook(xTaskHandle xTask, char *pcTaskName)
   * @param  None
   * @retval None
   */
-void MX_FREERTOS_Init(void)
-{
+void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
@@ -176,10 +169,10 @@ void MX_FREERTOS_Init(void)
 
   /* Create the queue(s) */
   /* creation of LEDQueue */
-  LEDQueueHandle = osMessageQueueNew(16, sizeof(LEDMessage *), &LEDQueue_attributes);
+  LEDQueueHandle = osMessageQueueNew (16, sizeof(LEDMessage*), &LEDQueue_attributes);
 
   /* creation of CommandQueue */
-  CommandQueueHandle = osMessageQueueNew(16, sizeof(uint8_t), &CommandQueue_attributes);
+  CommandQueueHandle = osMessageQueueNew (16, sizeof(uint8_t), &CommandQueue_attributes);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
@@ -205,6 +198,7 @@ void MX_FREERTOS_Init(void)
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
+
 }
 
 /* USER CODE BEGIN Header_StartUITask */
