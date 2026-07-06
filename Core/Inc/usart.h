@@ -22,7 +22,6 @@
 #define __USART_H__
 
 #ifdef __cplusplus
-extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
