@@ -235,7 +235,8 @@ void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef* ltdcHandle)
 }
 
 /* USER CODE BEGIN 1 */
-void ltdc_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color) {
+void ltdc_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color)
+{
   uint32_t psx, psy, pex, pey;
   uint16_t offline;
   uint32_t addr;
@@ -252,11 +253,14 @@ void ltdc_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_
 
   //  MODIFY_REG(hdma2d.Instance->OOR, DMA2D_OOR_LO, offline);
   hdma2d.Instance->OOR = offline;
-  HAL_DMA2D_Start_IT(&hdma2d,
-                     (uint32_t) color,
-                     addr,
-                     (pex - psx + 1),
-                     (pey - psy + 1));
+  if (HAL_DMA2D_Start_IT(&hdma2d,
+                         (uint32_t) color,
+                         addr,
+                         (pex - psx + 1),
+                         (pey - psy + 1)) != HAL_OK)
+  {
+    osSemaphoreRelease(ScreenFlushSemaphoreHandle);
+  }
 }
 
 /* USER CODE END 1 */

@@ -73,13 +73,6 @@ const osThreadAttr_t LEDTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
-/* Definitions for CommunicationTa */
-osThreadId_t CommunicationTaHandle;
-const osThreadAttr_t CommunicationTa_attributes = {
-  .name = "CommunicationTa",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
-};
 /* Definitions for LEDQueue */
 osMessageQueueId_t LEDQueueHandle;
 const osMessageQueueAttr_t LEDQueue_attributes = {
@@ -90,6 +83,11 @@ osMessageQueueId_t CommandQueueHandle;
 const osMessageQueueAttr_t CommandQueue_attributes = {
   .name = "CommandQueue"
 };
+/* Definitions for ScreenFlushSemaphore */
+osSemaphoreId_t ScreenFlushSemaphoreHandle;
+const osSemaphoreAttr_t ScreenFlushSemaphore_attributes = {
+  .name = "ScreenFlushSemaphore"
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -99,7 +97,6 @@ const osMessageQueueAttr_t CommandQueue_attributes = {
 void StartUITask(void *argument);
 extern void StartKeyScanTask(void *argument);
 extern void StartLEDTask(void *argument);
-extern void StartCommunicationTask(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -159,6 +156,10 @@ void MX_FREERTOS_Init(void) {
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
 
+  /* Create the semaphores(s) */
+  /* creation of ScreenFlushSemaphore */
+  ScreenFlushSemaphoreHandle = osSemaphoreNew(1, 0, &ScreenFlushSemaphore_attributes);
+
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
@@ -188,9 +189,6 @@ void MX_FREERTOS_Init(void) {
   /* creation of LEDTask */
   LEDTaskHandle = osThreadNew(StartLEDTask, NULL, &LEDTask_attributes);
 
-  /* creation of CommunicationTa */
-  // CommunicationTaHandle = osThreadNew(StartCommunicationTask, NULL, &CommunicationTa_attributes);
-
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -212,7 +210,7 @@ __weak void StartUITask(void *argument)
 {
   /* USER CODE BEGIN StartUITask */
   /* Infinite loop */
-  
+
   /* USER CODE END StartUITask */
 }
 

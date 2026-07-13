@@ -16,6 +16,6 @@ void StartUITask(void *argument)
     for (;;)
     {
         lv_timer_handler();
-        osDelay(5);
+        osDelay(2);
     }
 }

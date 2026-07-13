@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "cmsis_os2.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -67,6 +67,7 @@ void Error_Handler(void);
 #define LCD_BG_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
+extern osSemaphoreId_t ScreenFlushSemaphoreHandle;
 
 /* USER CODE END Private defines */
 
